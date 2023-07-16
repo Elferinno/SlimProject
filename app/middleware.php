@@ -7,4 +7,11 @@ use Slim\App;
 
 return function (App $app) {
     $app->add(SessionMiddleware::class);
+
+    $settings = $app->getContainer()->get('settings');
+    $app->addErrorMiddleware(
+        $settings['displayErrorDetails'],
+        $settings['logErrors'],
+        $settings['logErrorDetails']
+    );
 };
