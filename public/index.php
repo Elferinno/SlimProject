@@ -12,8 +12,8 @@ $container = new Container();
 $settings = require __DIR__ . '/../app/settings.php';
 $settings($container);
 
-//$connection = require __DIR__ . '/../app/connection.php';
-//$connection($container);
+$connection = require __DIR__ . '/../app/connection.php';
+$connection($container);
 
 // Set Container on app
 AppFactory::setContainer($container);
