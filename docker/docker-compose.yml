@@ -1,10 +1,24 @@
-version: '3.7'
+version: '3.8'
 
-volumes:
-    logs:
-        driver: local
-    my-db:
 services:
+    app:
+        build:
+            context: ""
+            dockerfile: Dockerfile
+        container_name: slim-app
+        restart: always
+        working_dir: /var/www/
+        volumes:
+            - ../:/var/www
+    nginx:
+        image: nginx:1.25-alpine
+        container_name: slim-nginx
+        restart: always
+        ports:
+            - "8000:80"
+        volumes:
+            - ../:/var/www
+            - ./nginx:/etc/nginx/conf.d
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         links:
@@ -33,15 +47,4 @@ services:
             - '3306'
             # Where our data will be persisted
         volumes:
-            - my-db:/var/lib/mysql
-    slim:
-        image: daijie/php7-alpine
-        working_dir: /var/www
-        command: php -S 0.0.0.0:8080 -t public
-        environment:
-            docker: "true"
-        ports:
-            - 8080:8080
-        volumes:
-            - .:/var/www
-            - logs:/var/www/logs
+            - ./storage/mysql:/var/lib/mysql

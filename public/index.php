@@ -1,34 +1,13 @@
 <?php
 
-declare(strict_types=1);
+use Slim\Views\Twig;
+use Slim\Views\TwigMiddleware;
 
-use DI\Container;
-use Slim\Factory\AppFactory;
-
+$app = require __DIR__ . '/../app/bootstrap.php';
 require __DIR__ . '/../vendor/autoload.php';
 
-$container = new Container();
+$twig = $app->getContainer()->get(Twig::class);
 
-$settings = require __DIR__ . '/../app/settings.php';
-$settings($container);
+$app->add(TwigMiddleware::create($app, $twig));
 
-$connection = require __DIR__ . '/../app/connection.php';
-$connection($container);
-
-// Set Container on app
-AppFactory::setContainer($container);
-
-// Create App
-$app = AppFactory::create();
-
-$views = require __DIR__ . '/../app/views.php';
-$views($app);
-
-$middleware = require __DIR__ . '/../app/middleware.php';
-$middleware($app);
-
-$routes = require __DIR__ . '/../app/routes.php';
-$routes($app);
-
-// Run App
 $app->run();

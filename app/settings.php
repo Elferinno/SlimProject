@@ -7,7 +7,7 @@ use DI\Container;
 return function (Container $container) {
     $container->set('settings', function () {
         return [
-            'name' => 'Example Slim Application',
+            'name' => 'Slim Application',
             'displayErrorDetails' => true,
             'logErrorDetails' => true,
             'logErrors' => true,
@@ -16,7 +16,7 @@ return function (Container $container) {
                 'settings' => ['cache' => false],
             ],
             'connection' => [
-                'host' => 'slim_db_1',
+                'host' => 'docker-db-1',
                 'dbname' => 'db',
                 'dbuser' => 'user',
                 'dbpass' => 'secret',

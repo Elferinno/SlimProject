@@ -1,1 +1,75 @@
-{{ name }}
+{% extends 'layout.twig' %}
+
+{% block title %}
+    Sectors
+{% endblock %}
+
+{% block content %}
+
+    <div class="main">
+
+        {% for ids in sectorIds %}
+               <span> {{ ids }} </span>
+        {% endfor %}
+
+        {% for error in errors %}
+            <div id="error-block">
+                <span> {{ error }} </span>
+            </div>
+        {% endfor %}
+
+        {% if successMsg %}
+            <div id="message-block">
+                <span> {{ successMsg }} </span>
+            </div>
+
+        {% endif %}
+        <form id="input-form" method="POST" action="sector-form-submit">
+            <div id="message-block">
+                <span> Please enter your name and pick the Sectors you are currently involved in. </span>
+            </div>
+            <div class="flex-break"></div>
+            <br>
+            <br>
+            <div class="label-cell"><label for="name">Name:</label></div>
+
+            <div class="input-cell"><input
+                        id="name"
+                        type="text"
+                        name="name"
+                        value="{{ name }}"
+                /></div>
+            <div class="label-cell"><label for="userSectors">Sectors:</label></div>
+            <div class="input-cell">
+                <select id="userSectors" name="sectors[]" multiple size="7">
+{#                    <option disabled></option>#}
+                    {% for sector in sectors %}
+                    <option value="{{ sector.getSectorTitle() }}" {{ sector.getSectorTitle() in userSectors ? 'selected' : '' }}>
+                        {{ sector.getSectorIndentation()| raw }}{{ sector.getSectorTitle() }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="label-cell"><label for="terms">Agree to terms</label></div>
+            <input name="terms"
+                   id="terms"
+                   type="checkbox"
+                    {{ agreeTerms ? 'checked' : '' }}>
+            <div class="flex-break"></div>
+
+            <div class="label-cell"></div>
+            <div class="input-cell button-cell">
+
+                {% if userId %}
+                    <input type="hidden" name="userId" value="{{ userId }}">
+                {% endif %}
+
+                <button type="submit"
+                        name="submitButton"
+                        id="submitButton"
+                        value="sector-form-submit">Save
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
