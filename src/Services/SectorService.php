@@ -72,8 +72,8 @@ class SectorService implements SectorServiceInterface
              Sectors must be a non-empty array containing only string values.";
         }
 
-        if (strlen(trim($name)) < 3) {
-            $errorMsg[] = "Name must be at least 3 characters long";
+        if (strlen(trim($name)) < 3 || strlen($name) > 25) {
+            $errorMsg[] = "Name must be at between 3 and 25 characters long";
         }
 
         if (!v::notEmpty()->alpha()->validate($terms)) {
